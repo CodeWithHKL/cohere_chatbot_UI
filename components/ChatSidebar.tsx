@@ -1,27 +1,75 @@
-import { MessageSquare, Plus, Settings, User } from "lucide-react";
+"use client";
 
-export default function ChatSidebar() {
+import React from 'react';
+import { Plus, Settings, User, Hash, ChevronLeft } from "lucide-react";
+
+interface SidebarProps {
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+}
+
+export default function ChatSidebar({ isOpen, setIsOpen }: SidebarProps) {
   return (
-    <aside className="w-64 bg-zinc-950 border-r border-zinc-800 flex flex-col h-screen p-4">
-      <button className="flex items-center gap-2 w-full p-3 rounded-xl border border-zinc-800 hover:bg-zinc-900 transition-colors text-sm font-medium mb-6">
-        <Plus size={18} />
-        New Chat
-      </button>
+    <>
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
 
-      <div className="flex-1 overflow-y-auto space-y-2">
-        <p className="text-xs font-semibold text-zinc-500 uppercase px-2 mb-2">Recent</p>
-        {['Project Ideas', 'Code Review', 'Travel Plan'].map((chat) => (
-          <button key={chat} className="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-zinc-900 text-zinc-400 hover:text-white text-sm transition-all group">
-            <MessageSquare size={16} className="group-hover:text-cyan-400" />
-            <span className="truncate">{chat}</span>
-          </button>
-        ))}
-      </div>
+      <aside className={`
+        fixed md:relative z-50 h-screen bg-[#080808] border-r border-white/10
+        transition-all duration-300 ease-in-out flex flex-col overflow-hidden
+        ${isOpen ? 'w-72 translate-x-0' : 'w-0 -translate-x-full md:w-0 md:translate-x-0'}
+      `}>
+        {/* Min-width wrapper prevents content compression during animation */}
+        <div className="min-w-[288px] flex flex-col h-full">
+          {/* Sidebar Header */}
+          <div className="p-6 border-b border-white/10 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-[#ff6b00] rounded-lg flex items-center justify-center font-black text-black">H</div>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em]">Neural Link</span>
+            </div>
+            <button onClick={() => setIsOpen(false)} className="p-1 hover:text-[#ff6b00] transition-colors md:hidden">
+              <ChevronLeft size={20} />
+            </button>
+          </div>
 
-      <div className="pt-4 border-t border-zinc-800 space-y-1">
-        <button className="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-zinc-900 text-zinc-400 text-sm"><Settings size={18}/> Settings</button>
-        <button className="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-zinc-900 text-zinc-400 text-sm"><User size={18}/> Profile</button>
-      </div>
-    </aside>
+          <div className="p-4">
+            <button className="w-full group flex items-center justify-between p-3 bg-white/5 border border-white/10 rounded-xl hover:border-[#ff6b00]/50 transition-all">
+              <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-white">New Session</span>
+              <Plus size={16} className="text-[#ff6b00]" />
+            </button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="space-y-1">
+              <p className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] px-2 mb-2">History</p>
+              {['Architecture_Log', 'Database_Schema', 'API_Refactor'].map((chat) => (
+                <button key={chat} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 group transition-colors text-left">
+                  <Hash size={14} className="text-gray-600 group-hover:text-[#ff6b00] shrink-0" />
+                  <span className="text-xs text-gray-400 group-hover:text-white truncate font-bold uppercase tracking-tighter">{chat}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="p-4 border-t border-white/10 bg-[#050505]">
+            <div className="flex items-center gap-3 p-2">
+              <div className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                <User size={16} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] font-black uppercase truncate">Visitor_01</p>
+                <p className="text-[8px] text-green-500 font-bold uppercase tracking-widest animate-pulse">Online</p>
+              </div>
+              <Settings size={14} className="text-gray-500 hover:text-white cursor-pointer" />
+            </div>
+          </div>
+        </div>
+      </aside>
+    </>
   );
 }

@@ -1,15 +1,22 @@
-/* app/globals.css */
 @import "tailwindcss";
 
-@theme {
-  --color-brand: #ff6b00;
-  --color-brand-muted: rgba(255, 107, 0, 0.1);
-  --color-bg-dark: #050505;
-  --color-panel: #111111;
-  --color-border-white: rgba(255, 255, 255, 0.1);
+/* Optional: Add custom scrollbar hiding for that clean terminal look */
+@utility scrollbar-hide {
+  @media (max-width: 640px) {
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }
 
 :root {
-  background-color: var(--color-bg-dark);
-  color: white;
+  background: #050505;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
