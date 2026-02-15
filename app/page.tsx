@@ -84,33 +84,33 @@ export default function CyberChat() {
   if (!mounted) return <div className="bg-[#050505] h-screen w-screen" />;
 
   return (
-    <div className="flex h-screen bg-[#050505] text-white font-mono selection:bg-[#ff6b00] selection:text-black overflow-hidden">
+    <div className="flex h-screen bg-[#050505] text-white font-mono selection:bg-[#ff0000] selection:text-black overflow-hidden">
       <ChatSidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} onNewSession={clearChat} />
 
       <main className="flex-1 flex flex-col relative min-w-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#ff6b00]/5 blur-[140px] rounded-full pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#ff0000]/5 blur-[140px] rounded-full pointer-events-none" />
 
         <header className="h-20 border-b border-white/10 flex items-center px-4 md:px-6 justify-between bg-black/40 backdrop-blur-xl z-20 shrink-0">
           <div className="flex items-center gap-4">
             {!sidebarOpen && (
-              <button onClick={() => setSidebarOpen(true)} className="p-2.5 hover:bg-white/5 border border-white/10 rounded-lg text-[#ff6b00] transition-all">
+              <button onClick={() => setSidebarOpen(true)} className="p-2.5 hover:bg-white/5 border border-white/10 rounded-lg text-[#ff0000] transition-all">
                 <Menu size={20} />
               </button>
             )}
             <div className="p-2 bg-white/5 border border-white/10 rounded-lg hidden sm:block">
-                <Terminal size={18} className="text-[#ff6b00]" />
+                <Terminal size={18} className="text-[#ff0000]" />
             </div>
             <div>
                 <h2 className="text-xs md:text-sm font-black uppercase tracking-[0.2em]">City_Kernel_v4</h2>
                 <div className="flex items-center gap-2">
-                  <span className={`w-1.5 h-1.5 rounded-full ${isLoading ? 'bg-orange-500' : 'bg-green-500'} animate-pulse`} />
+                  <span className={`w-1.5 h-1.5 rounded-full ${isLoading ? 'bg-red-500' : 'bg-green-500'} animate-pulse`} />
                   <p className="text-[8px] md:text-[9px] text-gray-500 font-bold tracking-widest uppercase">
                     {isLoading ? 'Scanning Database...' : 'Uplink Stable'}
                   </p>
                 </div>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-[#ff6b00]">
+          <div className="flex items-center gap-4 text-[#ff0000]">
             <span className="hidden md:block text-[9px] font-black tracking-widest opacity-40">MCFC-ENC-PROTOCOL</span>
             <Zap size={18} className="animate-pulse" />
           </div>
@@ -121,14 +121,14 @@ export default function CyberChat() {
             {messages.map((msg, i) => (
               <div key={i} className={`flex gap-3 md:gap-5 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                 <div className={`w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center shrink-0 border transition-all duration-300 ${
-                  msg.role === 'user' ? 'bg-[#ff6b00] border-[#ff6b00] text-black shadow-[0_0_15px_rgba(255,107,0,0.3)]' : 'bg-white/5 border-white/10 text-[#ff6b00]'
+                  msg.role === 'user' ? 'bg-[#ff0000] border-[#ff0000] text-black shadow-[0_0_15px_rgba(255,0,0,0.3)]' : 'bg-white/5 border-white/10 text-[#ff0000]'
                 }`}>
                   {msg.role === 'user' ? <User size={16} strokeWidth={3} /> : <Bot size={16} strokeWidth={3} />}
                 </div>
                 
                 <div className={`max-w-[85%] md:max-w-xl space-y-2 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
                   <div className={`inline-block px-4 py-3 md:px-6 md:py-4 rounded-2xl text-[13px] md:text-sm font-bold tracking-tight leading-relaxed shadow-2xl ${
-                    msg.role === 'user' ? 'bg-zinc-100 text-black rounded-tr-none' : 'bg-[#0f0f0f] border border-white/10 text-gray-300 rounded-tl-none border-l-2 border-l-[#ff6b00]'
+                    msg.role === 'user' ? 'bg-zinc-100 text-black rounded-tr-none' : 'bg-[#0f0f0f] border border-white/10 text-gray-300 rounded-tl-none border-l-2 border-l-[#ff0000]'
                   }`}>
                     {msg.content}
                   </div>
@@ -143,10 +143,10 @@ export default function CyberChat() {
 
             {isLoading && (
               <div className="flex gap-3 md:gap-5 flex-row">
-                <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center bg-white/5 border border-white/10 text-[#ff6b00]">
+                <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center bg-white/5 border border-white/10 text-[#ff0000]">
                   <Loader2 size={16} className="animate-spin" />
                 </div>
-                <div className="bg-[#0f0f0f] border border-white/10 px-4 py-3 rounded-2xl rounded-tl-none border-l-2 border-l-[#ff6b00]">
+                <div className="bg-[#0f0f0f] border border-white/10 px-4 py-3 rounded-2xl rounded-tl-none border-l-2 border-l-[#ff0000]">
                   <span className="text-[10px] text-gray-500 animate-pulse uppercase tracking-widest font-black">Querying Intelligence...</span>
                 </div>
               </div>
@@ -157,7 +157,7 @@ export default function CyberChat() {
         <div className="p-4 md:p-8 bg-gradient-to-t from-[#050505] to-transparent z-10">
           <div className="max-w-4xl mx-auto">
             <div className="relative group">
-              <div className="absolute -inset-1 bg-[#ff6b00]/20 rounded-[1rem] md:rounded-[2rem] blur-lg opacity-0 group-focus-within:opacity-100 transition duration-700"></div>
+              <div className="absolute -inset-1 bg-[#ff0000]/20 rounded-[1rem] md:rounded-[2rem] blur-lg opacity-0 group-focus-within:opacity-100 transition duration-700"></div>
               <div className="relative flex items-center bg-[#0a0a0a] border border-white/10 rounded-[1rem] md:rounded-[1.5rem] overflow-hidden backdrop-blur-md">
                 <div className="pl-4 md:pl-6 text-gray-500 shrink-0"><Command size={18} /></div>
                 
@@ -185,7 +185,7 @@ export default function CyberChat() {
                 <button 
                   onClick={handleSend}
                   disabled={isLoading}
-                  className="mr-2 md:mr-4 p-2.5 md:p-4 bg-[#ff6b00] text-black rounded-lg md:rounded-xl hover:bg-orange-400 active:scale-90 flex items-center gap-2 px-5 md:px-8 shadow-[0_0_20px_rgba(255,107,0,0.2)] disabled:opacity-50"
+                  className="mr-2 md:mr-4 p-2.5 md:p-4 bg-[#ff0000] text-black rounded-lg md:rounded-xl hover:bg-red-400 active:scale-90 flex items-center gap-2 px-5 md:px-8 shadow-[0_0_20px_rgba(255,0,0,0.2)] disabled:opacity-50"
                 >
                   <span className="text-[10px] font-black uppercase tracking-tighter hidden sm:inline">Submit</span>
                   {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} strokeWidth={3} />}

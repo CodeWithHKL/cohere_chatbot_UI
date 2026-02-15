@@ -27,11 +27,11 @@ export default function ChatSidebar({ isOpen, setIsOpen, onNewSession }: Sidebar
         <div className="min-w-[288px] flex flex-col h-full">
           <div className="p-6 border-b border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-[#ff6b00] rounded-lg flex items-center justify-center font-black text-black">M</div>
+              <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center font-black text-black">M</div>
               <span className="text-[10px] font-black uppercase tracking-[0.3em]">Neural Link</span>
             </div>
             
-            <button onClick={() => setIsOpen(false)} className="p-2 text-[#ff6b00] hover:bg-white/5 rounded-lg transition-all">
+            <button onClick={() => setIsOpen(false)} className="p-2 text-red-600 hover:bg-white/5 rounded-lg transition-all">
               <Menu size={20} />
             </button>
           </div>
@@ -39,10 +39,10 @@ export default function ChatSidebar({ isOpen, setIsOpen, onNewSession }: Sidebar
           <div className="p-4">
             <button 
               onClick={onNewSession}
-              className="w-full group flex items-center justify-between p-3 bg-white/5 border border-white/10 rounded-xl hover:border-[#ff6b00]/50 transition-all"
+              className="w-full group flex items-center justify-between p-3 bg-white/5 border border-white/10 rounded-xl hover:border-red-600/50 transition-all"
             >
               <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-white">New Session</span>
-              <Plus size={16} className="text-[#ff6b00]" />
+              <Plus size={16} className="text-red-600" />
             </button>
           </div>
 
@@ -51,7 +51,7 @@ export default function ChatSidebar({ isOpen, setIsOpen, onNewSession }: Sidebar
               <p className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] px-2 mb-2">History</p>
               {['Season_24_Stats', 'Tactics_Node', 'Trophy_Cabinet'].map((chat) => (
                 <button key={chat} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 group transition-colors text-left">
-                  <Hash size={14} className="text-gray-600 group-hover:text-[#ff6b00] shrink-0" />
+                  <Hash size={14} className="text-gray-600 group-hover:text-red-600 shrink-0" />
                   <span className="text-xs text-gray-400 group-hover:text-white truncate font-bold uppercase tracking-tighter">{chat}</span>
                 </button>
               ))}
