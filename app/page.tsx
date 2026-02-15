@@ -69,7 +69,7 @@ export default function CyberChat() {
     } catch (error) {
       setMessages(prev => [...prev, { 
         role: 'bot', 
-        content: "CRITICAL_ERROR: CONNECTION_LOST. UNABLE TO REACH ETIHAD SERVERS.", 
+        content: "CRITICAL_ERROR: CONNECTION_LOST. UNABLE TO REACH HKLX SERVERS.", 
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
       }]);
     } finally {
@@ -112,7 +112,7 @@ export default function CyberChat() {
                 <Terminal size={18} className="text-[#ff0000]" />
             </div>
             <div>
-                <h2 className="text-xs md:text-sm font-black uppercase tracking-[0.2em]">UNITEN CHATBOT HKLX</h2>
+                <h2 className="text-xs md:text-sm font-black uppercase tracking-[0.2em]">UNITEN CHATBOT V6.7</h2>
                 <div className="flex items-center gap-2">
                   <span className={`w-1.5 h-1.5 rounded-full ${isLoading ? 'bg-red-500' : 'bg-green-500'} animate-pulse`} />
                   <p className="text-[8px] md:text-[9px] text-gray-500 font-bold tracking-widest uppercase">
