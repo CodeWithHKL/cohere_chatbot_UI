@@ -29,7 +29,17 @@ export async function POST(req: Request) {
       maxTokens: 100,
     });
 
-    const botReply = response.message.content[0].text;
+    // Safer extraction: Find the first content block that is a text type
+    const content = response.message.content;
+    let botReply = "ERROR: EMPTY RESPONSE FROM AI.";
+
+    if (Array.isArray(content) && content.length > 0) {
+      const textBlock = content.find(block => block.type === 'text');
+      if (textBlock && 'text' in textBlock) {
+        botReply = textBlock.text;
+      }
+    }
+
     return NextResponse.json({ reply: botReply });
   } catch (error) {
     console.error('Cohere API Error:', error);
