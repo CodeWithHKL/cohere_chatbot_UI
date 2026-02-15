@@ -102,37 +102,42 @@ export default function CyberChat() {
         </header>
 
         {/* MESSAGES AREA */}
-        <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 md:p-8 space-y-8 z-10 scrollbar-hide">
-          {messages.map((msg, i) => (
-            <div key={i} className={`flex gap-3 md:gap-5 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-              
-              {/* Avatar Icon */}
-              <div className={`w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center shrink-0 border transition-all duration-300 ${
-                msg.role === 'user' 
-                ? 'bg-[#ff6b00] border-[#ff6b00] text-black shadow-[0_0_15px_rgba(255,107,0,0.3)]' 
-                : 'bg-white/5 border-white/10 text-[#ff6b00]'
-              }`}>
-                {msg.role === 'user' ? <User size={16} strokeWidth={3} /> : <Bot size={16} strokeWidth={3} />}
-              </div>
-              
-              {/* Message Content */}
-              <div className={`max-w-[85%] md:max-w-2xl space-y-2 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
-                <div className={`inline-block px-4 py-3 md:px-6 md:py-4 rounded-2xl text-[13px] md:text-sm font-bold tracking-tight leading-relaxed shadow-2xl transition-all ${
+        <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 md:p-8 z-10 scrollbar-hide">
+          {/* Centered Container for Messages */}
+          <div className="max-w-4xl mx-auto space-y-8">
+            {messages.map((msg, i) => (
+              <div key={i} className={`flex gap-3 md:gap-5 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                
+                {/* Avatar Icon */}
+                <div className={`w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center shrink-0 border transition-all duration-300 ${
                   msg.role === 'user' 
-                  ? 'bg-zinc-100 text-black rounded-tr-none' 
-                  : 'bg-[#0f0f0f] border border-white/10 text-gray-300 rounded-tl-none border-l-2 border-l-[#ff6b00]'
+                  ? 'bg-[#ff6b00] border-[#ff6b00] text-black shadow-[0_0_15px_rgba(255,107,0,0.3)]' 
+                  : 'bg-white/5 border-white/10 text-[#ff6b00]'
                 }`}>
-                  {msg.content}
+                  {msg.role === 'user' ? <User size={16} strokeWidth={3} /> : <Bot size={16} strokeWidth={3} />}
                 </div>
-                <p className="text-[8px] font-black text-gray-600 uppercase tracking-widest flex items-center gap-2 justify-end">
-                   <span className="opacity-40">{msg.time}</span>
-                   <span className={msg.role === 'user' ? 'text-white/60' : 'text-[#ff6b00]/60'}>
-                     // {msg.role === 'user' ? 'Auth_User' : 'System_Root'}
-                   </span>
-                </p>
+                
+                {/* Message Content */}
+                <div className={`max-w-[85%] md:max-w-xl space-y-2 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
+                  <div className={`inline-block px-4 py-3 md:px-6 md:py-4 rounded-2xl text-[13px] md:text-sm font-bold tracking-tight leading-relaxed shadow-2xl transition-all ${
+                    msg.role === 'user' 
+                    ? 'bg-zinc-100 text-black rounded-tr-none' 
+                    : 'bg-[#0f0f0f] border border-white/10 text-gray-300 rounded-tl-none border-l-2 border-l-[#ff6b00]'
+                  }`}>
+                    {msg.content}
+                  </div>
+                  <div className={`flex items-center gap-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                    <p className="text-[8px] font-black text-gray-600 uppercase tracking-widest flex items-center gap-2">
+                       <span className="opacity-40">{msg.time}</span>
+                       <span className={msg.role === 'user' ? 'text-white/60' : 'text-[#ff6b00]/60'}>
+                         // {msg.role === 'user' ? 'Auth_User' : 'System_Root'}
+                       </span>
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* INPUT TERMINAL */}
