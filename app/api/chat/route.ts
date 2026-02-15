@@ -7,22 +7,15 @@ const cohere = new CohereClientV2({
 
 export async function POST(req: Request) {
   try {
-    const { message, history } = await req.json();
-
-    const formattedHistory = history.map((msg: any) => ({
-      role: msg.role === 'user' ? 'user' : 'assistant',
-      content: msg.content,
-    }));
+    const { message } = await req.json();
 
     const response = await cohere.chat({
-      // UPDATE THIS LINE BELOW
-      model: 'command-a-03-2025', 
+      model: 'command-r7b-12-2024', 
       messages: [
         {
           role: 'system',
           content: "You are a Manchester City chatbot. Do answer and response to questions about Man City, if things out of context then tell them you dont know."
         },
-        ...formattedHistory,
         { role: 'user', content: message },
       ],
       temperature: 0.7,
@@ -33,7 +26,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ reply: botReply });
   } catch (error) {
     console.error('Cohere API Error:', error);
-    // This will help you see the specific error in your terminal if it happens again
     return NextResponse.json({ reply: "ERROR: NEURAL LINK INTERRUPTED." }, { status: 500 });
   }
 }

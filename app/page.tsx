@@ -41,30 +41,21 @@ export default function CyberChat() {
     const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const currentInput = input;
     
-    // 1. Update UI with User Message
+    // Update UI locally
     const newUserMsg: Message = { role: 'user', content: currentInput, time: now };
-    const updatedMessages = [...messages, newUserMsg];
-    
-    setMessages(updatedMessages);
+    setMessages(prev => [...prev, newUserMsg]);
     setInput('');
     setIsLoading(true);
 
     try {
-      // 2. Prepare history (limit to last 20 messages like your Python code)
-      const chatHistoryForAPI = updatedMessages.slice(-20);
-
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          message: currentInput,
-          history: chatHistoryForAPI 
-        }),
+        body: JSON.stringify({ message: currentInput }),
       });
 
       const data = await response.json();
 
-      // 3. Update UI with Bot Response
       setMessages(prev => [...prev, { 
         role: 'bot', 
         content: data.reply, 
@@ -81,27 +72,35 @@ export default function CyberChat() {
     }
   };
 
+  const clearChat = () => {
+    setMessages([{ 
+      role: 'bot', 
+      content: 'SESSION RESET. KERNEL REBOOTED. STANDING BY.', 
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+    }]);
+  };
+
   if (!mounted) return <div className="bg-[#050505] h-screen w-screen" />;
 
   return (
     <div className="flex h-screen bg-[#050505] text-white font-mono selection:bg-[#ff6b00] selection:text-black overflow-hidden">
-      <ChatSidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+      <ChatSidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} onNewSession={clearChat} />
 
       <main className="flex-1 flex flex-col relative min-w-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#ff6b00]/5 blur-[140px] rounded-full pointer-events-none" />
 
         <header className="h-20 border-b border-white/10 flex items-center px-4 md:px-6 justify-between bg-black/40 backdrop-blur-xl z-20 shrink-0">
           <div className="flex items-center gap-4">
-            <div className={`transition-all duration-500 ease-in-out ${sidebarOpen ? 'opacity-0 scale-0 w-0 pointer-events-none' : 'opacity-100 scale-100 w-auto'}`}>
-              <button onClick={() => setSidebarOpen(true)} className="p-2.5 hover:bg-white/5 border border-white/10 rounded-lg text-[#ff6b00] transition-transform duration-500 hover:rotate-90">
+            {!sidebarOpen && (
+              <button onClick={() => setSidebarOpen(true)} className="p-2.5 hover:bg-white/5 border border-white/10 rounded-lg text-[#ff6b00] transition-all">
                 <Menu size={20} />
               </button>
-            </div>
+            )}
             <div className="p-2 bg-white/5 border border-white/10 rounded-lg hidden sm:block">
                 <Terminal size={18} className="text-[#ff6b00]" />
             </div>
-            <div className="min-w-0">
-                <h2 className="text-xs md:text-sm font-black uppercase tracking-[0.2em] truncate">City_Kernel_v4</h2>
+            <div>
+                <h2 className="text-xs md:text-sm font-black uppercase tracking-[0.2em]">City_Kernel_v4</h2>
                 <div className="flex items-center gap-2">
                   <span className={`w-1.5 h-1.5 rounded-full ${isLoading ? 'bg-orange-500' : 'bg-green-500'} animate-pulse`} />
                   <p className="text-[8px] md:text-[9px] text-gray-500 font-bold tracking-widest uppercase">
@@ -147,7 +146,7 @@ export default function CyberChat() {
                   <Loader2 size={16} className="animate-spin" />
                 </div>
                 <div className="bg-[#0f0f0f] border border-white/10 px-4 py-3 rounded-2xl rounded-tl-none border-l-2 border-l-[#ff6b00]">
-                  <span className="text-[10px] text-gray-500 animate-pulse uppercase tracking-widest font-black">Querying History...</span>
+                  <span className="text-[10px] text-gray-500 animate-pulse uppercase tracking-widest font-black">Querying Intelligence...</span>
                 </div>
               </div>
             )}
@@ -166,13 +165,13 @@ export default function CyberChat() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                  placeholder={isLoading ? "SEARCHING TROPHY CABINET..." : "ASK ABOUT MAN CITY..."}
+                  placeholder={isLoading ? "PROCESSING..." : "ASK ABOUT MAN CITY..."}
                   className="w-full bg-transparent border-none py-4 md:py-6 px-3 md:px-5 text-[11px] md:text-xs font-black uppercase tracking-[0.2em] focus:outline-none placeholder:text-gray-800 disabled:opacity-50"
                 />
                 <button 
                   onClick={handleSend}
                   disabled={isLoading}
-                  className="mr-2 md:mr-4 p-2.5 md:p-4 bg-[#ff6b00] text-black rounded-lg md:rounded-xl hover:bg-orange-400 active:scale-90 flex items-center gap-2 px-5 md:px-8 shadow-[0_0_20px_rgba(255,107,0,0.2)] disabled:opacity-50 disabled:grayscale"
+                  className="mr-2 md:mr-4 p-2.5 md:p-4 bg-[#ff6b00] text-black rounded-lg md:rounded-xl hover:bg-orange-400 active:scale-90 flex items-center gap-2 px-5 md:px-8 shadow-[0_0_20px_rgba(255,107,0,0.2)] disabled:opacity-50"
                 >
                   <span className="text-[10px] font-black uppercase tracking-tighter hidden sm:inline">Submit</span>
                   {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} strokeWidth={3} />}
