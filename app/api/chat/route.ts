@@ -8,7 +8,14 @@ const cohere = new CohereClientV2({
 export async function POST(req: Request) {
   try {
     const { message } = await req.json();
-
+    
+    if (!message || message.length > 400) {
+      return NextResponse.json(
+        { reply: "SYSTEM_ERROR: INPUT_OVERLOAD. PLEASE LIMIT QUERY TO 400 CHARACTERS." }, 
+        { status: 400 }
+      );
+    }
+    
     const response = await cohere.chat({
       model: 'command-r7b-12-2024', 
       messages: [
@@ -19,7 +26,7 @@ export async function POST(req: Request) {
         { role: 'user', content: message },
       ],
       temperature: 0.7,
-      maxTokens: 200,
+      maxTokens: 100,
     });
 
     const botReply = response.message.content[0].text;

@@ -17,6 +17,7 @@ export default function CyberChat() {
   const [isLoading, setIsLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const CHARACTER_LIMIT = 400;
 
   useEffect(() => {
     setMounted(true);
@@ -159,15 +160,28 @@ export default function CyberChat() {
               <div className="absolute -inset-1 bg-[#ff6b00]/20 rounded-[1rem] md:rounded-[2rem] blur-lg opacity-0 group-focus-within:opacity-100 transition duration-700"></div>
               <div className="relative flex items-center bg-[#0a0a0a] border border-white/10 rounded-[1rem] md:rounded-[1.5rem] overflow-hidden backdrop-blur-md">
                 <div className="pl-4 md:pl-6 text-gray-500 shrink-0"><Command size={18} /></div>
+                
                 <input
                   type="text"
                   disabled={isLoading}
                   value={input}
+                  maxLength={CHARACTER_LIMIT}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSend()}
                   placeholder={isLoading ? "PROCESSING..." : "ASK ABOUT MAN CITY..."}
                   className="w-full bg-transparent border-none py-4 md:py-6 px-3 md:px-5 text-[11px] md:text-xs font-black uppercase tracking-[0.2em] focus:outline-none placeholder:text-gray-800 disabled:opacity-50"
                 />
+
+                {/* Character Counter */}
+                <div className="hidden sm:flex flex-col items-end mr-4 select-none">
+                  <span className={`text-[9px] font-black tracking-tighter ${
+                    input.length >= CHARACTER_LIMIT ? 'text-red-500' : 'text-gray-600'
+                  }`}>
+                    {input.length}/{CHARACTER_LIMIT}
+                  </span>
+                  <span className="text-[7px] text-gray-800 font-bold uppercase tracking-widest">Buffer</span>
+                </div>
+                
                 <button 
                   onClick={handleSend}
                   disabled={isLoading}
