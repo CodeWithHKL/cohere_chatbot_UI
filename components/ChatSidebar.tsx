@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Plus, Settings, User, Hash, ChevronLeft } from "lucide-react";
+import { Plus, Settings, User, Hash, Menu, X } from "lucide-react";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -24,16 +24,20 @@ export default function ChatSidebar({ isOpen, setIsOpen }: SidebarProps) {
         transition-all duration-300 ease-in-out flex flex-col overflow-hidden
         ${isOpen ? 'w-72 translate-x-0' : 'w-0 -translate-x-full md:w-0 md:translate-x-0'}
       `}>
-        {/* Min-width wrapper prevents content compression during animation */}
         <div className="min-w-[288px] flex flex-col h-full">
           {/* Sidebar Header */}
           <div className="p-6 border-b border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-[#ff6b00] rounded-lg flex items-center justify-center font-black text-black">H</div>
+              <div className="w-8 h-8 bg-[#ff6b00] rounded-lg flex items-center justify-center font-black text-black shadow-[0_0_15px_rgba(255,107,0,0.3)]">H</div>
               <span className="text-[10px] font-black uppercase tracking-[0.3em]">Neural Link</span>
             </div>
-            <button onClick={() => setIsOpen(false)} className="p-1 hover:text-[#ff6b00] transition-colors md:hidden">
-              <ChevronLeft size={20} />
+            
+            {/* The Hamburger INSIDE the sidebar (Mobile/Desktop Close Trigger) */}
+            <button 
+              onClick={() => setIsOpen(false)} 
+              className="p-2 text-[#ff6b00] hover:bg-white/5 rounded-lg transition-all duration-500 transform rotate-180"
+            >
+              <Menu size={20} />
             </button>
           </div>
 
@@ -58,14 +62,14 @@ export default function ChatSidebar({ isOpen, setIsOpen }: SidebarProps) {
 
           <div className="p-4 border-t border-white/10 bg-[#050505]">
             <div className="flex items-center gap-3 p-2">
-              <div className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center shrink-0">
                 <User size={16} />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[10px] font-black uppercase truncate">Visitor_01</p>
                 <p className="text-[8px] text-green-500 font-bold uppercase tracking-widest animate-pulse">Online</p>
               </div>
-              <Settings size={14} className="text-gray-500 hover:text-white cursor-pointer" />
+              <Settings size={14} className="text-gray-500 hover:text-white cursor-pointer shrink-0" />
             </div>
           </div>
         </div>
