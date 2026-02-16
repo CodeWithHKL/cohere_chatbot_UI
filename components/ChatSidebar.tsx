@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { Plus, Settings, User, Hash, Menu } from "lucide-react";
 
 interface SidebarProps {
@@ -12,26 +12,6 @@ interface SidebarProps {
 export default function ChatSidebar({ isOpen, setIsOpen, onNewSession }: SidebarProps) {
   
   const [isSpinning, setIsSpinning] = useState(false);
-
-  // --- AUTO CLOSE, REMOVE THIS IF NOT NEEDED, REMOVE USEEFFECT ASWELL ON TOP
-  useEffect(() => {
-  // 1. Check if the document is still loading
-  const handleLoad = () => {
-    setTimeout(() => {
-      setIsOpen(false);
-    }, 1000);
-  };
-
-  if (document.readyState === 'complete') {
-    // If page is already loaded, start timer
-    handleLoad();
-  } else {
-    // Wait for the window to finish loading everything (images, etc.)
-    window.addEventListener('load', handleLoad);
-    return () => window.removeEventListener('load', handleLoad);
-  }
-}, [setIsOpen]);
-//----------------------
   
   const handleLogoClick = () => {
     setIsSpinning(true);
