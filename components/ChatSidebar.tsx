@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Settings, User, Hash, Menu } from "lucide-react";
 
 interface SidebarProps {
@@ -10,6 +10,37 @@ interface SidebarProps {
 }
 
 export default function ChatSidebar({ isOpen, setIsOpen, onNewSession }: SidebarProps) {
+  
+  const [isSpinning, setIsSpinning] = useState(false);
+
+  // --- AUTO CLOSE, REMOVE THIS IF NOT NEEDED, REMOVE USEEFFECT ASWELL ON TOP
+  useEffect(() => {
+  // 1. Check if the document is still loading
+  const handleLoad = () => {
+    setTimeout(() => {
+      setIsOpen(false);
+    }, 1000);
+  };
+
+  if (document.readyState === 'complete') {
+    // If page is already loaded, start timer
+    handleLoad();
+  } else {
+    // Wait for the window to finish loading everything (images, etc.)
+    window.addEventListener('load', handleLoad);
+    return () => window.removeEventListener('load', handleLoad);
+  }
+}, [setIsOpen]);
+//----------------------
+  
+  const handleLogoClick = () => {
+    setIsSpinning(true);
+    // Add logic here if you want it to do something, e.g., redirect home
+    window.open("https://hklxportfolio.vercel.app", "_blank", "noopener,noreferrer");
+    
+    setTimeout(() => setIsSpinning(false), 500); 
+  };
+
   return (
     <>
       {isOpen && (
@@ -27,7 +58,26 @@ export default function ChatSidebar({ isOpen, setIsOpen, onNewSession }: Sidebar
         <div className="min-w-[288px] flex flex-col h-full">
           <div className="p-6 border-b border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center font-black text-black">H</div>
+              
+              {/* TOOLTIP WRAPPER */}
+              <div className="relative group flex items-center">
+                {/* THE TOOLTIP (Portfolio Style) */}
+                <span className="absolute left-full ml-4 px-3 py-1.5 rounded-lg bg-black/90 backdrop-blur-md border border-white/10 text-white text-[10px] font-black uppercase tracking-widest whitespace-nowrap opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 pointer-events-none shadow-2xl z-[100]">
+                  VISIT HKL
+                  {/* The Arrow */}
+                  <div className="absolute top-1/2 -left-1 -translate-y-1/2 w-2 h-2 bg-black/90 border-l border-b border-white/10 rotate-45"></div>
+                </span>
+
+                <button 
+                  onClick={handleLogoClick}
+                  className={`w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center font-black text-black text-sm transition-transform duration-500 hover:bg-red-500 active:scale-90 ${
+                    isSpinning ? "rotate-[360deg]" : "rotate-0"
+                  }`}
+                >
+                  H
+                </button>
+              </div>  
+
               <span className="text-[10px] font-black uppercase tracking-[0.3em]">HKLX</span>
             </div>
             
